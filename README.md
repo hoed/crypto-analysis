@@ -1,4 +1,3 @@
----
 
 ````markdown
 # 📊 Crypto Analysis Automation with n8n
