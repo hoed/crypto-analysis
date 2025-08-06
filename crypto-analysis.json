@@ -295,7 +295,7 @@
     {
       "parameters": {
         "authentication": "headerAuth",
-        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={XXXXXXXXXXXXXXXXXXXXXXXXXXXXX}",
         "options": {}
       },
       "name": "HTTP Request",
@@ -316,7 +316,7 @@
     {
       "parameters": {
         "authentication": "headerAuth",
-        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={XXXXXXXXXXXXXXXXXXX}",
         "options": {}
       },
       "name": "HTTP Request1",
@@ -337,7 +337,7 @@
     {
       "parameters": {
         "authentication": "headerAuth",
-        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={XXXXXXXXXXXXX}",
         "options": {}
       },
       "name": "HTTP Request2",
