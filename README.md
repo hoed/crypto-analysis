@@ -1,5 +1,3 @@
-Berikut adalah versi terbaru dari `README.md` dengan penambahan penggunaan **Coindesk API** untuk HTTP Request — bisa digunakan untuk mengambil data harga Bitcoin (BTC), Ethereum (ETH), dan lain-lain sebagai data tambahan atau referensi sentimen makro.
-
 ---
 
 ````markdown
@@ -143,7 +141,4 @@ Pull requests are welcome. Let's make automated crypto analysis more accessible 
 
 ```
 
----
 
-Jika kamu ingin saya bantu buatkan node HTTP Request di workflow `.json` untuk Coindesk (misalnya untuk ambil `currentprice` BTC atau ETH), atau ingin download file `README.md` ini langsung, tinggal bilang aja!
-```
