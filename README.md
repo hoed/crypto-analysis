@@ -4,7 +4,7 @@ This repository contains a visual **crypto market analysis automation workflow**
 
 ---
 
-## 🖼️ Workflow Screenshot
+## 🖼️ Workflow
 
 ![Crypto Analysis Workflow](./crypto-analysis.png)
 
@@ -80,7 +80,7 @@ graph LR
 
 ---
 
-## 🧠 Analysis Breakdown
+## 📊 Analysis Breakdown
 
 The AI Agent provides two types of recommendations:
 
