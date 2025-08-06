@@ -18,7 +18,7 @@ This repository contains a visual **crypto market analysis automation workflow**
 
 ## 🔁 Workflow Overview
 
-```mermaid
+```markdown
 graph LR
     A[Telegram Trigger] --> B{Format the Ticker}
     B --> C1[Get 15m Candle]
