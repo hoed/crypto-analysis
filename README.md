@@ -138,6 +138,6 @@ MIT License. Feel free to use and modify.
 
 Pull requests are welcome. Let's make automated crypto analysis more accessible 🚀
 
-```
+
 
 
