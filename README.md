@@ -117,7 +117,7 @@ The AI Agent provides two types of recommendations:
 
 ## 🧩 Dependencies
 
-* n8n v1+
+* n8n 
 * Telegram Bot
 * Access to candlestick data API (e.g., Binance, Bybit)
 * Coindesk API (Free, no auth required)
