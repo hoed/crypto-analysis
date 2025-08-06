@@ -1,0 +1,526 @@
+{
+  "name": "Crypto Analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Retrieve the input text from json.message.text\nconst inputText = $input.first().json.message.text;\n\n// Check if inputText is a string \nif (typeof inputText !== 'string') {\n  throw new Error('Input text must be a string');\n}\n\n// Trim whitespace and convert to uppercase\nconst trimmedUpperText = inputText.trim().toUpperCase();\n\n// Append 'USDT' to form the trading pair symbol \nconst tradingPairSymbol = `${trimmedUpperText}-USD`;\n\n// Output the result as a JSON object\nreturn [\n  {\n    json: {\n      tradingPairSymbol: tradingPairSymbol\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        464
+      ],
+      "id": "99e0c9ec-a30f-490b-82ad-2e8be581a59f",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        544,
+        352
+      ],
+      "id": "3ad8f51f-d1e9-4466-b609-16f9e41162a4",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=ini adalah kombinasi data dari pasar untuk {{ $('Code').first().json.tradingPairSymbol }} yang sebagai referensi kamu:\n\nTechnical Data:\n{{ JSON.stringify($json.allCandles, null, 2) }}\n\nIni adalah array JSON di mana setiap elemen merupakan objek data candlestick untuk suatu aset kripto. Setiap objek memiliki struktur berikut:\n\n* **timeframe**: salah satu dari \"15m\", \"1h\", atau \"1d\"\n* **candles**: sebuah array nilai dengan urutan sebagai berikut:\n  `[openTime, open, high, low, close, volume, closeTime, quoteVolume, trades, takerBuyBaseVolume, takerBuyQuoteVolume, ignore]`\n\n**Data Sentimen**: Di akhir array JSON terdapat juga analisis sentimen jangka panjang dan jangka pendek yang berdasarkan pada judul-judul berita kripto selama 7 hari terakhir.\n\n---\n\n### Silakan lakukan langkah-langkah berikut:\n\n---\n\n1. Kelompokkan Data:\n\nKelompokkan objek candlestick berdasarkan timeframe ke dalam tiga grup:\n\n* Data Jangka Pendek: candle \"15m\"\n* Data Jangka Menengah: candle \"1h\"\n* Data Jangka Panjang: candle \"1d\"\n\n---\n\n2. **Analisis Data Secara Rinci:**\n\n* Analisis Jangka Pendek:\n\nGunakan candle 15m (dengan wawasan pendukung dari candle 1h) untuk mengevaluasi volatilitas dan menentukan level support dan resistance dalam waktu dekat.\nDalam analisis ini, kombinasikan indikator lagging tradisional (seperti MACD, RSI, dan OBV) sebagai alat konfirmasi, dengan elemen aksi harga langsung—seperti zona support/resistance utama, garis tren, dan pola divergensi.\nFokuskan pada sinyal berbasis harga ini untuk menangkap sentimen pasar saat ini dan level-level struktural.\n\n\n\n* Analisis Jangka Panjang:\n\nGunakan candle 1d (dan wawasan relevan dari candle 1h) untuk menilai arah pasar secara keseluruhan dan zona support/resistance utama.\nGabungkan garis tren jangka panjang dan sinyal divergensi bersama indikator lagging untuk memahami konteks pasar yang lebih luas dan potensi pergeseran struktural.\n\n---\n\n3. Hasilkan Rekomendasi Perdagangan:\n\n---\n\n*Untuk Spot Trading:\n\n* Aksi: (beli, jual, atau tahan)\n* Harga Masuk:\n* Level Stop-Loss:\n* Level Take Profit (TP):\n* Alasan: Berikan penjelasan yang sangat rinci untuk rekomendasi Anda. Uraikan alasan Anda ke dalam tiga bagian:\n\n  * Sinyal Utama: Jelaskan wawasan aksi harga utama (zona support/resistance, breakout atau pantulan garis tren, pola divergensi).\n  * Indikator Lagging: Jelaskan bagaimana indikator (MACD, RSI, OBV, dll.) mengkonfirmasi atau melengkapi sinyal tersebut.\n  * Analisis Sentimen: Bahas tren volume, sentimen pasar, dan faktor makro. Gabungkan semua elemen ini menjadi satu penjelasan yang komprehensif.\n\n*Untuk Perdagangan Leverage:\n\n* Posisi: (long atau short)\n* Leverage yang Disarankan: (misal: 3x, 5x, dll.)\n* Harga Masuk:\n* Level Stop-Loss:\n* Level Take Profit (TP):\n* Alasan: Berikan penjelasan rinci yang juga dibagi menjadi:\n\n  * Sinyal Utama Aksi Harga: Garis support/resistance utama, garis tren, dan pola divergensi.\n  * Konfirmasi Indikator Lagging: Jelaskan bagaimana indikator memvalidasi sinyal tersebut.\n  * Analisis Sentimen & Makro\\: Sertakan analisis tren volume, sentimen pasar secara umum, dan faktor ekonomi yang lebih luas.\n\n\n## Format Output:\n\n* Kembalikan hasil akhir dalam bentuk plain text dengan format HTML yang konsisten untuk Telegram.\n\n* Setiap judul bagian (misal: \"Spot Recommendations\") ditulis **dengan huruf tebal (bold).\n* Setiap sub-bagian (misal: \"Primary Signals\", \"Lagging Indicators\", \"Sentiment Analysis\") juga ditulis tebal.\n* Gunakan pemisah baris yang jelas antar bagian dan tanda bullet untuk memperjelas informasi.\n\n\n## Contoh Template Output (Telegram Style HTML):\n\n**{{ $('Code').first().json.tradingPairSymbol }} analysis for {{ $now }}**\n*(Pastikan format tanggal adalah \"dd/mm/yyyy at xx:xxpm\")*\n\n---\n\n**Spot Recommendations:**\n\nShort-term:\nAction: ...\nEntry Price: ...\nStop Loss: ...\nTake Profit: ... Rationale:\n\n* Primary Signals: ...\n* Lagging Indicators: ...\n* Sentiment Analysis: ...\n\nLong-term:\nAction: ...\nEntry Price: ...\nStop Loss: ...\nTake Profit: ... Rationale:\n\n* Primary Signals: ...\n* Lagging Indicators: ...\n* Sentiment Analysis: ...\n\n---\n\n**Leveraged Recommendations:**\n\nShort-Term:\n\n* Position: ...\n* Leverage: ...\n* Entry Price: ...\n* Stop loss: ...\n* Take Profit: ...\n* Rationale:\n\n  * Primary Price Action Signals: ...\n  * Lagging Indicator Confirmation: ...\n  * Sentiment & Macro Analysis: ...\n\nLong-Term:\n\n* Position: ...\n* Leverage: ...\n* Entry Price: ...\n* Stop loss: ...\n* Take Profit: ...\n* Rationale:\n\n  * Primary Price Action Signals: ...\n  * Lagging Indicator Confirmation: ...\n  * Sentiment & Macro Analysis: ...\n\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1360,
+        560
+      ],
+      "id": "643c845a-4c82-474e-87dc-f6f50fd1498d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"timeframe\": \"1d\",\n  \"candles\": {{ $json }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        592
+      ],
+      "id": "3b959e96-c3f7-4720-b61e-7faf364576d9",
+      "name": "1D Candle Data"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"timeframe\": \"1h\",\n  \"candles\": {{ $json }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        336
+      ],
+      "id": "2b78c55a-add9-4b5c-92c5-d3bcec11ac66",
+      "name": "1H Candle Data"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"timeframe\": \"15m\",\n  \"candles\": {{ $json }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        64
+      ],
+      "id": "bba891f6-7adf-49c3-9d33-5883e45b05ce",
+      "name": "15M Candle Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "// \"items\" is an array of 3000 items from the Merge node.\n// We'll collect them all in a single array called \"allCandles\".\nconst allCandles = [];\n\nfor (const item of items) {\n  allCandles.push(item.json);\n}\n\n// Return a single item with a property named \"allCandles\" (an array of 3000).\nreturn [{\n  json: {\n    allCandles\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        368
+      ],
+      "id": "e40c2490-cc79-43db-a247-1dbc678091bd",
+      "name": "Combine JSON Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputText = $json[\"output\"] || \"\";\nif (typeof inputText !== \"string\") {\n  throw new Error(\"Input must be a string\");\n}\nconst mid = Math.ceil(inputText.length / 2);\nconst firstHalf = inputText.substring(0, mid);\nconst secondHalf = inputText.substring(mid);\nreturn [\n  { json: {blockNumber: 1, content: firstHalf } },\n  { json: {blockNumber: 2, content: secondHalf } },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        560
+      ],
+      "id": "7f930de2-3629-4e5f-8540-1666ffef3a04",
+      "name": "Split Telegram Message"
+    },
+    {
+      "parameters": {
+        "content": "## Format the ticker",
+        "height": 220,
+        "width": 320,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        400
+      ],
+      "id": "ca790c44-3eda-47b1-b8aa-18d3dfe8eb87",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Get 15m Candle data\n",
+        "height": 220,
+        "width": 400,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3429e393-228f-49b4-ba40-ad85e41c1813",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Get 1h Candle data\n",
+        "height": 220,
+        "width": 400,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        272
+      ],
+      "id": "0d0f9143-e253-4c84-babd-7aa2daaf6b6b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Get 1d Candle data\n",
+        "height": 220,
+        "width": 400,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        528
+      ],
+      "id": "c37c868d-d9ca-4aff-9a26-ff7b47d0492c",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Combine all Candles\n\n",
+        "height": 220,
+        "width": 360,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        288
+      ],
+      "id": "9fa73ade-e56b-437f-a881-118f941f93ea",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Create The analysis\n\n\n",
+        "height": 220,
+        "width": 360,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        512
+      ],
+      "id": "61d67a7e-dd5f-41cc-970d-67ff2cd909a8",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## Send Email\n \n\n",
+        "height": 220,
+        "width": 460,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        512
+      ],
+      "id": "b43f14bc-bb12-48a5-8c07-96be2b5b2829",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        784
+      ],
+      "id": "2426ae50-7181-4622-9c1c-98bd17ab4e4e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "nKCR4ClM67JHIJaZ",
+          "name": "Accounting AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "hoedhud@gmail.com",
+        "subject": "Crypto Analysis Signal",
+        "emailType": "text",
+        "message": "={{ $json.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1984,
+        560
+      ],
+      "id": "ba5a4666-2d7e-409e-9072-6d12f1d374cc",
+      "name": "Send a message",
+      "webhookId": "12b3a705-2375-4591-8078-49215bf5463f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DXpIqJyCDgqbZdF2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -448,
+        464
+      ],
+      "id": "c5d11379-f8e7-408f-8db7-31e4b2a6ca35",
+      "name": "Telegram Trigger",
+      "webhookId": "c452f2e5-148c-4657-94cf-d4503477a5c2",
+      "credentials": {
+        "telegramApi": {
+          "id": "OUoB7ymrM9KUIrUM",
+          "name": "Crypto Tracker"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "options": {}
+      },
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        80,
+        64
+      ],
+      "id": "9759d04f-bf67-4302-bc1a-fea789eda416",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9L2uARKN8jbYFxtz",
+          "name": "Coindesk API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "options": {}
+      },
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        48,
+        336
+      ],
+      "id": "4b938a17-6407-475a-9422-0dc24cab64f1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9L2uARKN8jbYFxtz",
+          "name": "Coindesk API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "url": "=https://data-api.coindesk.com/index/cc/v1/latest/tick?market=ccix&instruments={{ $json.tradingPairSymbol }}&api_key={ba57183b330ff5b92ad6fb086d3f7ab4c8a62a2ca88db1be9df89df0fa250180}",
+        "options": {}
+      },
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        48,
+        592
+      ],
+      "id": "0623b5fb-4bcf-4a6f-8aa3-b2465ddd575c",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9L2uARKN8jbYFxtz",
+          "name": "Coindesk API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Combine JSON Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1D Candle Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "1H Candle Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "15M Candle Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine JSON Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Telegram Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Telegram Message": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "15M Candle Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "1H Candle Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "1D Candle Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c42951f1-7766-4863-b76e-52c955314876",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f2989df39b93d014755c3fe8dcddb8c56bda208c5a0c80466190c3f7927fdb1b"
+  },
+  "id": "wdsOm2dxxfHeL1rX",
+  "tags": []
+}
