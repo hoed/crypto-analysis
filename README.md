@@ -1,4 +1,4 @@
-````markdown
+
 # 📊 Crypto Analysis Automation with n8n
 
 This repository contains a visual **crypto market analysis automation workflow** built with [n8n](https://n8n.io/). It collects multi-timeframe candlestick data for a selected crypto pair, analyzes the data using an AI agent, and delivers the result via Telegram and email.
@@ -34,9 +34,7 @@ graph LR
     F1 --> G2[Send to Telegram]
     B --> H[Coindesk API Request]
     H --> F1
-````
 
----
 
 ## ⚙️ Nodes Used
 
@@ -137,5 +135,4 @@ MIT License. Feel free to use and modify.
 
 Pull requests are welcome. Let's make automated crypto analysis more accessible 🚀
 
-```
 
