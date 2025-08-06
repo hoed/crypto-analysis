@@ -4,6 +4,14 @@ This repository contains a visual **crypto market analysis automation workflow**
 
 ---
 
+## 🖼️ Workflow Screenshot
+
+![Crypto Analysis Workflow](./crypto-analysis.png)
+
+> 📌 *Screenshot of the full n8n workflow including 15m, 1h, and 1d candle data, AI analysis using Gemini, Coindesk API integration, and Telegram/Email output.*
+
+---
+
 ## 🧠 Features
 
 - ⏱️ Collects 15-minute, 1-hour, and 1-day candlestick data
